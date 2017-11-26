@@ -1,44 +1,31 @@
 #/bin/sh
 device=$1
-item=$2
-case $item in
-         rrqm)
-            iostat -dxkt |grep "\b$device\b"|tail -1|awk '{print $2}'
+DISK=$2
+
+case $DISK in
+         read.ops)
+            /bin/cat /proc/diskstats | grep "\b$device\b" | head -1 | awk '{print $4}'    
             ;;
-         wrqm)
-            iostat -dxkt |grep "\b$device\b"|tail -1|awk '{print $3}'
+         read.ms)
+            /bin/cat /proc/diskstats | grep "\b$device\b" | head -1 | awk '{print $7}'    
             ;;
-          rps)
-            iostat -dxkt |grep "\b$device\b"|tail -1|awk '{print $4}'
+         write.ops)
+            /bin/cat /proc/diskstats | grep "\b$device\b" | head -1 | awk '{print $8}'     
             ;;
-          wps)
-            iostat -dxkt |grep "\b$device\b" |tail -1|awk '{print $5}'
+         write.ms)
+            /bin/cat /proc/diskstats | grep "\b$device\b" | head -1 | awk '{print $11}' 
             ;;
-        rKBps)
-            iostat -dxkt |grep "\b$device\b" |tail -1|awk '{print $6}'
+         io.active)
+            /bin/cat /proc/diskstats | grep "\b$device\b" | head -1 | awk '{print $12}'   
             ;;
-        wKBps)
-            iostat -dxkt |grep "\b$device\b" |tail -1|awk '{print $7}'
+         read.sectors)
+            /bin/cat /proc/diskstats | grep "\b$device\b" | head -1 | awk '{print $6}'      
             ;;
-        avgrq-sz)
-            iostat -dxkt |grep "\b$device\b" |tail -1|awk '{print $8}'
+         write.sectors)
+            /bin/cat /proc/diskstats | grep "\b$device\b" | head -1 | awk '{print $10}'    
             ;;
-        avgqu-sz)
-            iostat -dxkt |grep "\b$device\b" |tail -1|awk '{print $9}'
+         io.ms)
+            /bin/cat /proc/diskstats | grep "\b$device\b" | head -1 | awk '{print $13}'     
             ;;
-        await)
-            iostat -dxkt |grep "\b$device\b" |tail -1|awk '{print $10}'
-            ;;
-        r_await)
-            iostat -dxkt |grep "\b$device\b" |tail -1|awk '{print $11}'
-            ;;
-        w_await)
-            iostat -dxkt |grep "\b$device\b" |tail -1|awk '{print $12}'
-            ;;
-        svctm)
-            iostat -dxkt |grep "\b$device\b" |tail -1|awk '{print $13}'
-            ;;
-         util)
-            iostat -dxkt |grep "\b$device\b" |tail -1|awk '{print $14}'
-            ;;
+    
 esac
